@@ -14,7 +14,7 @@ struct RandomUserCodingChallengeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(dependencies: dependencies)
         }
         .modelContainer(dependencies.modelContainer)
     }
