@@ -28,10 +28,20 @@ struct UserListView: View {
                             Label("Delete", systemImage: "trash")
                         }
                     }
+                    .onAppear {
+                        if user.id == viewModel.users.last?.id {
+                            Task { await viewModel.loadUsers() }
+                        }
+                    }
                 }
 
-                if !viewModel.isLoading {
-                    loadMoreButton
+                if viewModel.isLoading && !viewModel.users.isEmpty {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
+                    .listRowBackground(Color.clear)
                 }
             }
             .navigationTitle("Random Users")
@@ -44,20 +54,6 @@ struct UserListView: View {
         .task {
             await viewModel.loadUsers()
         }
-    }
-
-    private var loadMoreButton: some View {
-        Button {
-            Task { await viewModel.loadUsers() }
-        } label: {
-            HStack {
-                Spacer()
-                Text("Load more")
-                    .foregroundStyle(.accent)
-                Spacer()
-            }
-        }
-        .listRowBackground(Color.clear)
     }
 
     @ViewBuilder
