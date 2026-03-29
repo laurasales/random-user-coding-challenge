@@ -39,7 +39,7 @@ final class RandomUserAPIClient: RandomUserAPIClientProtocol {
         let url = try makeURL()
         let (data, response) = try await session.data(from: url)
         try validate(response)
-        let dto = try Self.decoder.decode(RandomUserResponseDTO.self, from: data)
+        let dto = try Self.decoder.decode(RandomUserAPI.Response.self, from: data)
         return dto.results.map { $0.toDomain(insertedAt: Date()) }
     }
 
