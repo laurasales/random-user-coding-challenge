@@ -39,6 +39,7 @@ struct UserListView: View {
                     HStack {
                         Spacer()
                         ProgressView()
+                            .tint(.accent)
                         Spacer()
                     }
                     .listRowBackground(Color.clear)
@@ -60,6 +61,7 @@ struct UserListView: View {
     private var stateOverlay: some View {
         if viewModel.isLoading && viewModel.users.isEmpty {
             ProgressView()
+                .tint(.accent)
         } else if let error = viewModel.errorMessage {
             ContentUnavailableView(
                 "Something went wrong",
