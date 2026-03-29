@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct RandomUserCodingChallengeApp: App {
@@ -15,5 +16,6 @@ struct RandomUserCodingChallengeApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(dependencies.modelContainer)
     }
 }
