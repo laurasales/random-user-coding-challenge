@@ -70,12 +70,8 @@ struct UserListView: View {
                 systemImage: "wifi.exclamationmark",
                 description: Text(error)
             )
-            ContentUnavailableView {
-                Label("Something went wrong", systemImage: "wifi.exclamationmark")
-                    .foregroundStyle(.accent)
-            } description: {
-                Text(error)
-            }
+        } else if !viewModel.searchText.isEmpty && viewModel.users.isEmpty {
+            ContentUnavailableView.search(text: viewModel.searchText)
         }
     }
 }
