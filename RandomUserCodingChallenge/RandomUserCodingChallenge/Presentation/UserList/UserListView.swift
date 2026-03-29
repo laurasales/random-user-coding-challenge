@@ -39,6 +39,7 @@ struct UserListView: View {
                     HStack {
                         Spacer()
                         ProgressView()
+                            .tint(.accent)
                         Spacer()
                     }
                     .listRowBackground(Color.clear)
@@ -47,9 +48,9 @@ struct UserListView: View {
             .navigationTitle("Random Users")
             .searchable(text: $viewModel.searchText, prompt: "Search by name, surname or email")
             .overlay { stateOverlay }
-            /*.navigationDestination(for: User.self) { user in
+            .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
-            }*/
+            }
         }
         .task {
             await viewModel.loadUsers()
@@ -60,6 +61,7 @@ struct UserListView: View {
     private var stateOverlay: some View {
         if viewModel.isLoading && viewModel.users.isEmpty {
             ProgressView()
+                .tint(.accent)
         } else if let error = viewModel.errorMessage {
             ContentUnavailableView(
                 "Something went wrong",
