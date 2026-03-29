@@ -8,7 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    let dependencies: AppDependencies
+
     var body: some View {
-        Text("Random Users")
+        UserListView(
+            viewModel: UserListViewModel(
+                fetchUsersUseCase: dependencies.fetchUsersUseCase,
+                deleteUserUseCase: dependencies.deleteUserUseCase,
+                filterUsersUseCase: dependencies.filterUsersUseCase
+            )
+        )
     }
 }
