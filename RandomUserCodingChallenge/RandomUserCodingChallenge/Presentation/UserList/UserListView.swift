@@ -47,9 +47,9 @@ struct UserListView: View {
             .navigationTitle("Random Users")
             .searchable(text: $viewModel.searchText, prompt: "Search by name, surname or email")
             .overlay { stateOverlay }
-            /*.navigationDestination(for: User.self) { user in
+            .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
-            }*/
+            }
         }
         .task {
             await viewModel.loadUsers()
