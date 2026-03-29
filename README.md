@@ -3,7 +3,7 @@ An iOS application that fetches and displays random users from the [RandomUser A
 
 ## Features
 
-- Browse a list of random users with name, surname email, picture, and phone
+- Browse a list of random users with name, surname, email, picture, and phone
 - Load more users with infinite scroll
 - Delete users — deleted users never reappear even after new fetches
 - Filter users by name, surname, or email with debounced search
@@ -14,7 +14,7 @@ An iOS application that fetches and displays random users from the [RandomUser A
 
 The app follows **Clean Architecture** with an **MVVM** presentation layer:
 
-**Presentation** (Views/ViewModels) → **Domain**  (Use Cases/Models) ← **Data**  (API/SwiftData)
+**Presentation** (Views/ViewModels) → **Domain** (Use Cases/Models) ← **Data** (API/SwiftData)
 
 - **Domain layer:** pure Swift. No framework dependencies. Contains `User` model, `UserRepositoryProtocol`, `RandomUserAPIClientProtocol`, and
  three use cases.
