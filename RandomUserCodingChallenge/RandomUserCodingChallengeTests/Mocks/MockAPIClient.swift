@@ -1,3 +1,10 @@
+//
+//  MockAPIClient.swift
+//  RandomUserCodingChallengeTests
+//
+//  Created by Laura Sales Martínez on 30/3/26.
+//
+
 import Foundation
 @testable import RandomUserCodingChallenge
 

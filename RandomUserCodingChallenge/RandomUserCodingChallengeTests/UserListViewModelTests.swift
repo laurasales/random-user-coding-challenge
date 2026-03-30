@@ -1,3 +1,10 @@
+//
+//  UserListViewModelTests.swift
+//  RandomUserCodingChallengeTests
+//
+//  Created by Laura Sales Martínez on 30/3/26.
+//
+
 import XCTest
 @testable import RandomUserCodingChallenge
 
