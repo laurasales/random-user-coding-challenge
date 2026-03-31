@@ -60,14 +60,14 @@ enum RandomUserAPI {
             if let intValue = try? container.decode(Int.self) {
                 self = .int(intValue)
             } else {
-                self = .string(try container.decode(String.self))
+                self = try .string(container.decode(String.self))
             }
         }
 
         var value: String {
             switch self {
-            case .string(let s): return s
-            case .int(let i): return String(i)
+            case let .string(stringValue): stringValue
+            case let .int(intValue): String(intValue)
             }
         }
     }

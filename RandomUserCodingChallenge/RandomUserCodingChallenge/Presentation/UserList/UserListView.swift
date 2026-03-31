@@ -35,7 +35,7 @@ struct UserListView: View {
                     }
                 }
 
-                if viewModel.isLoading && !viewModel.users.isEmpty {
+                if viewModel.isLoading, !viewModel.users.isEmpty {
                     HStack {
                         Spacer()
                         ProgressView()
@@ -59,7 +59,7 @@ struct UserListView: View {
 
     @ViewBuilder
     private var stateOverlay: some View {
-        if viewModel.isLoading && viewModel.users.isEmpty {
+        if viewModel.isLoading, viewModel.users.isEmpty {
             ProgressView()
                 .tint(.accent)
         } else if let error = viewModel.errorMessage {
@@ -68,7 +68,7 @@ struct UserListView: View {
                 systemImage: "wifi.exclamationmark",
                 description: Text(error)
             )
-        } else if !viewModel.searchText.isEmpty && viewModel.users.isEmpty {
+        } else if !viewModel.searchText.isEmpty, viewModel.users.isEmpty {
             ContentUnavailableView.search(text: viewModel.searchText)
         }
     }

@@ -5,8 +5,8 @@
 //  Created by Laura Sales Martínez on 29/3/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct RandomUserCodingChallengeApp: App {

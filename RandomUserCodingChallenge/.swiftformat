@@ -1,0 +1,51 @@
+# SwiftFormat configuration
+# https://github.com/nicklockwood/SwiftFormat
+
+--swiftversion 5.9
+
+# Indentation
+--indent 4
+--tabwidth 4
+--smarttabs enabled
+--xcodeindentation enabled
+
+# Braces — K&R style (opening brace on same line)
+--allman false
+
+# Line endings
+--linebreaks lf
+
+# Semicolons
+--semicolons never
+
+# Imports — alphabetical order, @testable at bottom
+--importgrouping testable-bottom
+
+# Trailing commas in multi-line collections
+--trailingcommas always
+
+# Whitespace
+--trimwhitespace always
+
+# Argument wrapping — first arg on new line when wrapping
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--closingparen balanced
+
+# Max line width — matches .swiftlint.yml warning threshold
+--maxwidth 120
+
+# Remove unnecessary self (keep in init where required by Swift)
+--self remove
+
+# Void style
+--void-type void
+
+# File headers — preserve existing Xcode-generated headers
+--header ignore
+
+# Disabled rules
+--disable redundantType        # project uses explicit type annotations intentionally
+--disable blankLinesAtStartOfScope
+--disable blankLinesAtEndOfScope

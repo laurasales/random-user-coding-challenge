@@ -15,8 +15,8 @@ final class FilterUsersUseCase {
         let term = searchTerm.lowercased()
         return users.filter { user in
             user.firstName.lowercased().contains(term)
-            || user.lastName.lowercased().contains(term)
-            || user.email.lowercased().contains(term)
+                || user.lastName.lowercased().contains(term)
+                || user.email.lowercased().contains(term)
         }
     }
 }

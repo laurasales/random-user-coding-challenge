@@ -47,9 +47,21 @@ struct UserDetailView: View {
 
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            DetailRow(icon: "envelope", label: "Email", value: user.email)
-            DetailRow(icon: "mappin.and.ellipse", label: "Location", value: "\(user.street), \(user.city), \(user.state)")
-            DetailRow(icon: "calendar", label: "Registered", value: user.registeredDate.formatted(date: .long, time: .omitted))
+            DetailRow(
+                icon: "envelope",
+                label: "Email",
+                value: user.email
+            )
+            DetailRow(
+                icon: "mappin.and.ellipse",
+                label: "Location",
+                value: "\(user.street), \(user.city), \(user.state)"
+            )
+            DetailRow(
+                icon: "calendar",
+                label: "Registered",
+                value: user.registeredDate.formatted(date: .long, time: .omitted)
+            )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
