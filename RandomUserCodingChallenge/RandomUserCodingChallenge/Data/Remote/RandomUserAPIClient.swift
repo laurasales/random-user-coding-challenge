@@ -9,6 +9,7 @@ import Foundation
 
 final class RandomUserAPIClient: RandomUserAPIClientProtocol {
     private let session: URLSession
+    private let paginationStore: PaginationStore
 
     private static let baseURL = URL(string: "https://api.randomuser.me")!
     private static let resultsPerPage = 40
@@ -31,8 +32,9 @@ final class RandomUserAPIClient: RandomUserAPIClientProtocol {
         return decoder
     }()
 
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, paginationStore: PaginationStore = PaginationStore()) {
         self.session = session
+        self.paginationStore = paginationStore
     }
 
     func fetchUsers() async throws -> [User] {
@@ -40,12 +42,17 @@ final class RandomUserAPIClient: RandomUserAPIClientProtocol {
         let (data, response) = try await session.data(from: url)
         try validate(response)
         let dto = try Self.decoder.decode(RandomUserAPI.Response.self, from: data)
+        paginationStore.advance()
         return dto.results.map { $0.toDomain(insertedAt: Date()) }
     }
 
     private func makeURL() throws -> URL {
         var components = URLComponents(url: Self.baseURL, resolvingAgainstBaseURL: false)
-        components?.queryItems = [URLQueryItem(name: "results", value: String(Self.resultsPerPage))]
+        components?.queryItems = [
+            URLQueryItem(name: "results", value: String(Self.resultsPerPage)),
+            URLQueryItem(name: "seed", value: paginationStore.seed),
+            URLQueryItem(name: "page", value: String(paginationStore.currentPage)),
+        ]
         guard let url = components?.url else {
             throw NetworkError.invalidURL
         }
