@@ -6,11 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		D391D23E2F7C605800FC451E /* SwiftLintFramework in Frameworks */ = {isa = PBXBuildFile; productRef = D391D23D2F7C605800FC451E /* SwiftLintFramework */; };
-		D391D2402F7C605800FC451E /* swiftlint in Frameworks */ = {isa = PBXBuildFile; productRef = D391D23F2F7C605800FC451E /* swiftlint */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		D36833EB2F789838009C001E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -57,8 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D391D23E2F7C605800FC451E /* SwiftLintFramework in Frameworks */,
-				D391D2402F7C605800FC451E /* swiftlint in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +102,7 @@
 				D36833D72F789835009C001E /* Sources */,
 				D36833D82F789835009C001E /* Frameworks */,
 				D36833D92F789835009C001E /* Resources */,
+				D391D3712F7C671A00FC451E /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -120,8 +114,6 @@
 			);
 			name = RandomUserCodingChallenge;
 			packageProductDependencies = (
-				D391D23D2F7C605800FC451E /* SwiftLintFramework */,
-				D391D23F2F7C605800FC451E /* swiftlint */,
 			);
 			productName = RandomUserCodingChallenge;
 			productReference = D36833DB2F789835009C001E /* RandomUserCodingChallenge.app */;
@@ -244,6 +236,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D391D3712F7C671A00FC451E /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.swiftformat",
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat > /dev/null; then\n    swiftformat \"${SRCROOT}/RandomUserCodingChallenge\" --config \"${SRCROOT}/.swiftformat\" --quiet\nelse\n    echo \"warning: SwiftFormat not installed. Run: brew install swiftformat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D36833D72F789835009C001E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -324,7 +339,7 @@
 				DEVELOPMENT_TEAM = 2YMH6J5DQ8;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -388,7 +403,7 @@
 				DEVELOPMENT_TEAM = 2YMH6J5DQ8;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -424,6 +439,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,6 +470,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -592,16 +609,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D391D23D2F7C605800FC451E /* SwiftLintFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = SwiftLintFramework;
-		};
-		D391D23F2F7C605800FC451E /* swiftlint */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = swiftlint;
-		};
 		D391D2422F7C617900FC451E /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */;
