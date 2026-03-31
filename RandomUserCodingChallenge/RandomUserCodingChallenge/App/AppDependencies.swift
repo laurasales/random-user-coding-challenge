@@ -18,20 +18,21 @@ final class AppDependencies {
     let filterUsersUseCase: FilterUsersUseCase
 
     init() {
-        let container = Self.makeModelContainer()
+        let isUITesting = ProcessInfo.processInfo.arguments.contains("--ui-testing")
+        let container = Self.makeModelContainer(inMemory: isUITesting)
         let context = ModelContext(container)
 
         self.modelContainer = container
         self.userRepository = UserRepository(modelContext: context)
-        self.apiClient = RandomUserAPIClient()
+        self.apiClient = isUITesting ? StubAPIClient() : RandomUserAPIClient()
         self.fetchUsersUseCase = FetchUsersUseCase(repository: userRepository, apiClient: apiClient)
         self.deleteUserUseCase = DeleteUserUseCase(repository: userRepository)
         self.filterUsersUseCase = FilterUsersUseCase()
     }
 
-    private static func makeModelContainer() -> ModelContainer {
+    private static func makeModelContainer(inMemory: Bool) -> ModelContainer {
         let schema = Schema([UserEntity.self])
-        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
