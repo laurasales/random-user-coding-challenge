@@ -37,6 +37,7 @@ opt_in_rules:
 
 disabled_rules:
   - redundant_type_annotation  # project prefers explicit type declarations
+  - trailing_comma             # SwiftFormat owns this rule (--trailingcommas always)
 
 line_length:
   warning: 120
