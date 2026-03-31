@@ -24,8 +24,8 @@ final class StubAPIClient: RandomUserAPIClientProtocol {
             city: "Barcelona",
             state: "Catalonia",
             registeredDate: Date(timeIntervalSince1970: 0),
-            thumbnailURL: URL(string: "https://example.com/thumb.jpg")!,
-            largeImageURL: URL(string: "https://example.com/large.jpg")!,
+            thumbnailURL: URL(string: "https://randomuser.me/api/portraits/thumb/women/1.jpg")!,
+            largeImageURL: URL(string: "https://randomuser.me/api/portraits/women/1.jpg")!,
             insertedAt: Date(timeIntervalSince1970: 0)
         ),
         User(
@@ -39,8 +39,8 @@ final class StubAPIClient: RandomUserAPIClientProtocol {
             city: "Madrid",
             state: "Madrid",
             registeredDate: Date(timeIntervalSince1970: 0),
-            thumbnailURL: URL(string: "https://example.com/thumb.jpg")!,
-            largeImageURL: URL(string: "https://example.com/large.jpg")!,
+            thumbnailURL: URL(string: "https://randomuser.me/api/portraits/thumb/men/1.jpg")!,
+            largeImageURL: URL(string: "https://randomuser.me/api/portraits/men/1.jpg")!,
             insertedAt: Date(timeIntervalSince1970: 0)
         ),
         User(
@@ -54,8 +54,8 @@ final class StubAPIClient: RandomUserAPIClientProtocol {
             city: "Valencia",
             state: "Valencia",
             registeredDate: Date(timeIntervalSince1970: 0),
-            thumbnailURL: URL(string: "https://example.com/thumb.jpg")!,
-            largeImageURL: URL(string: "https://example.com/large.jpg")!,
+            thumbnailURL: URL(string: "https://randomuser.me/api/portraits/thumb/women/2.jpg")!,
+            largeImageURL: URL(string: "https://randomuser.me/api/portraits/women/2.jpg")!,
             insertedAt: Date(timeIntervalSince1970: 0)
         ),
     ]
