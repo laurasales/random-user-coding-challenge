@@ -11,7 +11,7 @@ import Foundation
 final class UserListViewModel {
     private(set) var users: [User] = []
     private(set) var isLoading: Bool = false
-    private(set) var errorMessage: String? = nil
+    private(set) var errorMessage: String?
 
     var searchText: String = "" {
         didSet { applyFilter() }

@@ -56,7 +56,7 @@ final class RandomUserAPIClient: RandomUserAPIClientProtocol {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badStatusCode(0)
         }
-        guard (200...299).contains(httpResponse.statusCode) else {
+        guard (200 ... 299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
     }

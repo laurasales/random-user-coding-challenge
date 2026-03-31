@@ -22,12 +22,12 @@ final class AppDependencies {
         let container = Self.makeModelContainer(inMemory: isUITesting)
         let context = ModelContext(container)
 
-        self.modelContainer = container
-        self.userRepository = UserRepository(modelContext: context)
-        self.apiClient = isUITesting ? StubAPIClient() : RandomUserAPIClient()
-        self.fetchUsersUseCase = FetchUsersUseCase(repository: userRepository, apiClient: apiClient)
-        self.deleteUserUseCase = DeleteUserUseCase(repository: userRepository)
-        self.filterUsersUseCase = FilterUsersUseCase()
+        modelContainer = container
+        userRepository = UserRepository(modelContext: context)
+        apiClient = isUITesting ? StubAPIClient() : RandomUserAPIClient()
+        fetchUsersUseCase = FetchUsersUseCase(repository: userRepository, apiClient: apiClient)
+        deleteUserUseCase = DeleteUserUseCase(repository: userRepository)
+        filterUsersUseCase = FilterUsersUseCase()
     }
 
     private static func makeModelContainer(inMemory: Bool) -> ModelContainer {

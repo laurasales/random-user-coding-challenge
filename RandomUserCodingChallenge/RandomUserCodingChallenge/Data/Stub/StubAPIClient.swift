@@ -57,6 +57,6 @@ final class StubAPIClient: RandomUserAPIClientProtocol {
             thumbnailURL: URL(string: "https://example.com/thumb.jpg")!,
             largeImageURL: URL(string: "https://example.com/large.jpg")!,
             insertedAt: Date(timeIntervalSince1970: 0)
-        )
+        ),
     ]
 }
