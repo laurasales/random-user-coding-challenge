@@ -34,7 +34,8 @@ struct UserListView: View {
                         }
                     }
                 }
-
+            }
+            .safeAreaInset(edge: .bottom) {
                 if viewModel.isLoading, !viewModel.users.isEmpty {
                     HStack {
                         Spacer()
@@ -42,7 +43,8 @@ struct UserListView: View {
                             .tint(.accent)
                         Spacer()
                     }
-                    .listRowBackground(Color.clear)
+                    .padding(.vertical, 12)
+                    .background(.ultraThinMaterial)
                 }
             }
             .navigationTitle("Random Users")
