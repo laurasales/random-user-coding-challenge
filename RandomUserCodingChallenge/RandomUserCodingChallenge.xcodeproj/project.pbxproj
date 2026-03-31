@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D391D23E2F7C605800FC451E /* SwiftLintFramework in Frameworks */ = {isa = PBXBuildFile; productRef = D391D23D2F7C605800FC451E /* SwiftLintFramework */; };
+		D391D2402F7C605800FC451E /* swiftlint in Frameworks */ = {isa = PBXBuildFile; productRef = D391D23F2F7C605800FC451E /* swiftlint */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D36833EB2F789838009C001E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D391D23E2F7C605800FC451E /* SwiftLintFramework in Frameworks */,
+				D391D2402F7C605800FC451E /* swiftlint in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = RandomUserCodingChallenge;
 			packageProductDependencies = (
+				D391D23D2F7C605800FC451E /* SwiftLintFramework */,
+				D391D23F2F7C605800FC451E /* swiftlint */,
 			);
 			productName = RandomUserCodingChallenge;
 			productReference = D36833DB2F789835009C001E /* RandomUserCodingChallenge.app */;
@@ -195,6 +204,9 @@
 			);
 			mainGroup = D36833D22F789835009C001E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D36833DC2F789835009C001E /* Products */;
 			projectDirPath = "";
@@ -562,6 +574,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.63.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D391D23D2F7C605800FC451E /* SwiftLintFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = SwiftLintFramework;
+		};
+		D391D23F2F7C605800FC451E /* swiftlint */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D391D23C2F7C605800FC451E /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = swiftlint;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D36833D32F789835009C001E /* Project object */;
 }
