@@ -51,9 +51,21 @@ struct UserListScreen {
     }
 
     @discardableResult
-    func deleteUser(named name: String) -> Self {
+    func revealDeleteButton(named name: String) -> Self {
         app.cells.containing(.staticText, identifier: name).firstMatch.swipeLeft()
+        return self
+    }
+
+    @discardableResult
+    func confirmDelete() -> Self {
         app.buttons["Delete"].tap()
+        return self
+    }
+
+    @discardableResult
+    func deleteUser(named name: String) -> Self {
+        revealDeleteButton(named: name)
+        confirmDelete()
         return self
     }
 }

@@ -20,8 +20,8 @@ extension User {
         city: String = "Barcelona",
         state: String = "Spain",
         registeredDate: Date = Date(timeIntervalSince1970: 0),
-        thumbnailURL: URL = URL(string: "https://example.com/thumb.jpg")!,
-        largeImageURL: URL = URL(string: "https://example.com/large.jpg")!,
+        thumbnailURL: URL = URL(string: "https://randomuser.me/api/portraits/thumb/women/3.jpg")!,
+        largeImageURL: URL = URL(string: "https://randomuser.me/api/portraits/women/34.jpg")!,
         insertedAt: Date = Date(timeIntervalSince1970: 0)
     ) -> User {
         User(
