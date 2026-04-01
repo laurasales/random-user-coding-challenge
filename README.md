@@ -1,6 +1,6 @@
 # Random User Coding Challenge
 
-An iOS application that fetches and displays random users from the [RandomUser API](https://randomuser.me). Built as a home challenge for a Senior iOS Engineer position.
+An iOS application that fetches and displays random users from the [RandomUser API](https://randomuser.me).
 
 ## Features
 
