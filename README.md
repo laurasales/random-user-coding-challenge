@@ -103,7 +103,7 @@ The project has two test targets:
 
 **Unit tests** (`RandomUserCodingChallengeTests`) — 34 tests across 4 test classes, all using protocol-based mocks and a `User.fixture()` factory. No SwiftData or URLSession in unit tests.
 
-**UI tests** (`RandomUserCodingChallengeUITests`) — 18 tests using the Page Object Model. The test host always injects `StubAPIClient` (3 fixed users) via the `--ui-testing` launch argument, giving deterministic, network-free UI tests.
+**UI tests** (`RandomUserCodingChallengeUITests`) — 17 tests using the Page Object Model. The test host always injects `StubAPIClient` (3 fixed users) via the `--ui-testing` launch argument, giving deterministic, network-free UI tests.
 
 ```bash
 # Run all tests

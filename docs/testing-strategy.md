@@ -6,8 +6,8 @@ The project has two test targets: unit tests and UI tests. Together they cover t
 
 | Target | Tests | Approach | Network | Database |
 |---|---|---|---|---|
-| `RandomUserCodingChallengeTests` | 31 | Protocol mocks, in-memory state | None | None |
-| `RandomUserCodingChallengeUITests` | 16 | Page Object Model, StubAPIClient | None | In-memory SwiftData |
+| `RandomUserCodingChallengeTests` | 34 | Protocol mocks, in-memory state | None | None |
+| `RandomUserCodingChallengeUITests` | 17 | Page Object Model, StubAPIClient | None | In-memory SwiftData |
 
 ---
 
@@ -39,69 +39,70 @@ User.fixture(id: "abc", firstName: "Alice")
 
 ### Test Classes
 
-**`FetchUsersUseCaseTests`** — 8 tests
+**`FetchUsersUseCaseTests`** — 9 tests
 
 Covers the core orchestration logic in `FetchUsersUseCase`:
 
 | Test | Verifies |
 |---|---|
-| `testFetchUsers_savesNewUsersFromAPI` | New users from the API are passed to the repository |
-| `testFetchUsers_doesNotSaveDuplicates` | Users already in the store are not re-inserted |
-| `testFetchUsers_doesNotSaveSoftDeletedUsers` | API users matching a deleted ID are silently skipped |
-| `testFetchUsers_returnsAllStoredUsersAfterSaving` | The use case returns the full stored list, not just the new batch |
-| `testFetchUsers_deduplicatesById` | Duplicate IDs within the same API response are collapsed |
-| `testFetchUsers_emptyAPIResponseReturnsPreviousUsers` | An empty API page leaves existing data intact |
-| `testFetchUsers_emptyStoreAndAPIReturnsEmpty` | Empty store + empty API → empty result |
-| `testFetchUsers_propagatesAPIError` | API errors propagate to the caller |
+| `test_execute_savesNewUsersFromAPI` | New users from the API are passed to the repository |
+| `test_execute_doesNotSaveDuplicateUsers` | Users already in the store are not re-inserted |
+| `test_execute_doesNotSaveDeletedUsers` | API users matching a deleted ID are silently skipped |
+| `test_execute_returnsAllStoredUsersAfterSaving` | The use case returns the full stored list, not just the new batch |
+| `test_execute_savesOnlyNewUsersWhenMixedWithDuplicates` | Duplicate IDs within the same API response are collapsed |
+| `test_execute_emptyAPIResponse_returnsExistingStoredUsers` | An empty API page leaves existing data intact |
+| `test_execute_emptyStoreAndEmptyAPI_returnsEmpty` | Empty store + empty API → empty result |
+| `test_execute_propagatesAPIError` | API errors propagate to the caller |
+| `test_execute_skipsAllDeletedUsersFromMultipleBatches` | All deleted IDs in a multi-user batch are skipped; only non-deleted users are saved |
 
 **`DeleteUserUseCaseTests`** — 3 tests
 
 | Test | Verifies |
 |---|---|
-| `testDeleteUser_marksUserAsDeleted` | Repository receives the correct user ID |
-| `testDeleteUser_removesFromFetchedList` | A subsequent fetch no longer includes the deleted user |
-| `testDeleteUser_propagatesRepositoryError` | Repository errors propagate to the caller |
+| `test_execute_marksUserAsDeletedInRepository` | Repository receives the correct user ID |
+| `test_execute_removesUserFromStoredUsers` | The deleted user is removed from stored users |
+| `test_execute_propagatesRepositoryError` | Repository errors propagate to the caller |
 
-**`FilterUsersUseCaseTests`** — 9 tests
-
-| Test | Verifies |
-|---|---|
-| `testFilter_emptySearchTermReturnsAll` | Empty string → full list |
-| `testFilter_whitespaceOnlyTermReturnsAll` | Whitespace-only input is treated as empty |
-| `testFilter_matchesFirstName` | Partial case-insensitive match on first name |
-| `testFilter_matchesLastName` | Partial case-insensitive match on last name |
-| `testFilter_matchesEmail` | Partial case-insensitive match on email |
-| `testFilter_isCaseInsensitive` | "ALICE" matches "alice" |
-| `testFilter_partialMatchWorks` | "ali" matches "Alice" |
-| `testFilter_returnsMultipleMatches` | Multiple matching users are all returned |
-| `testFilter_noMatchReturnsEmpty` | Non-matching term → empty array |
-
-**`UserListViewModelTests`** — 11 tests
-
-These test the ViewModel in isolation using mocks for both use cases.
+**`FilterUsersUseCaseTests`** — 10 tests
 
 | Test | Verifies |
 |---|---|
-| `testLoadUsers_populatesUsers` | `users` is populated after `loadUsers()` |
-| `testLoadUsers_setsLoadingStateDuringFetch` | `isLoading` is `true` during the async call |
-| `testLoadUsers_setsErrorMessageOnFailure` | `errorMessage` is set when the use case throws |
-| `testLoadUsers_accumulatesUsersAcrossCalls` | Subsequent loads append to the list |
-| `testDeleteUser_removesUserFromList` | The deleted user is no longer in `users` |
-| `testDeleteUser_callsDeleteUseCase` | The delete use case receives the correct user |
-| `testDeleteUser_doesNotReappearAfterSearchClear` | A deleted user doesn't come back when search is cleared |
-| `testSearch_filtersUsersByText` | `users` reflects the filtered result while `allUsers` is unchanged |
-| `testSearch_emptyTextRestoresFullList` | Clearing search restores the full list |
-| `testLoadUsers_clearsErrorOnSuccess` | A successful load clears a previous error message |
-| `testLoadUsers_doesNotShowLoadingIfAlreadyLoading` | Concurrent load calls don't stack |
+| `test_execute_emptySearchTerm_returnsAllUsers` | Empty string → full list |
+| `test_execute_whitespaceSearchTerm_returnsAllUsers` | Whitespace-only input is treated as empty |
+| `test_execute_emptyUsersList_returnsEmpty` | Empty user list with any search term → empty result |
+| `test_execute_filtersByFirstName` | Partial case-insensitive match on first name |
+| `test_execute_filtersByLastName` | Partial case-insensitive match on last name |
+| `test_execute_filtersByEmail` | Partial case-insensitive match on email |
+| `test_execute_isCaseInsensitive` | "ALICE" matches "alice" |
+| `test_execute_partialMatch_returnsMatchingUsers` | "ali" matches "Alice" |
+| `test_execute_searchTermMatchesMultipleUsers` | Multiple matching users are all returned |
+| `test_execute_noMatch_returnsEmpty` | Non-matching term → empty array |
+
+**`UserListViewModelTests`** — 12 tests
+
+These test the ViewModel in isolation using real use case instances backed by mocks.
+
+| Test | Verifies |
+|---|---|
+| `test_loadUsers_populatesUsers` | `users` is populated after `loadUsers()` |
+| `test_loadUsers_isLoadingFalse_afterSuccess` | `isLoading` is `false` after a successful load |
+| `test_loadUsers_isLoadingFalse_afterFailure` | `isLoading` is `false` after a failed load |
+| `test_loadUsers_setsErrorMessage_onFailure` | `errorMessage` is set when the use case throws |
+| `test_loadUsers_clearsErrorMessage_onSuccess` | A successful load clears a previous error message |
+| `test_loadUsers_accumulatesUsersAcrossCalls` | Subsequent loads append to the list |
+| `test_deleteUser_removesUserFromList` | The deleted user is no longer in `users` |
+| `test_deleteUser_onlyRemovesTargetUser` | Only the specified user is removed; others remain |
+| `test_deleteUser_marksUserAsDeleted_inRepository` | The repository receives the deleted user ID |
+| `test_deleteUser_doesNotReappear_afterClearingSearch` | A deleted user doesn't come back when search is cleared |
+| `test_searchText_filtersUsers` | Setting `searchText` filters `users` immediately |
+| `test_searchText_empty_showsAllUsers` | Clearing `searchText` restores the full list |
 
 ### Custom Assertion Helper
 
-`XCTAssertThrowsErrorAsync` is provided in `User+Fixture.swift` to cleanly assert that an `async` throwing function throws with a specific error type:
+`XCTAssertThrowsErrorAsync` is defined as a free function at the bottom of `FetchUsersUseCaseTests.swift` to cleanly assert that an `async` throwing function throws:
 
 ```swift
-await XCTAssertThrowsErrorAsync(try await useCase.execute()) { error in
-    XCTAssertEqual(error as? MockError, .generic)
-}
+await XCTAssertThrowsErrorAsync(try await useCase.execute())
 ```
 
 ---
@@ -137,20 +138,23 @@ Wraps the user detail view. Provides:
 
 | Test | Verifies |
 |---|---|
-| Navigation bar title visible | App loads with correct title |
-| Users appear after load | Stub data renders in the list |
-| Email and phone visible in rows | Row layout is correct |
-| Search by first name | Search filters correctly |
-| Search by last name | Search filters correctly |
-| Search by email | Search filters correctly |
-| No results empty state | Empty state view appears |
-| Clear search restores list | Cancelling search restores full list |
-| Navigate to detail | Tapping a row opens detail |
-| Detail view content | Name, email, location, registered date are visible |
-| Back navigation | Back button returns to list |
-| Delete a user | Swipe-to-delete removes the row |
-| Deleted user doesn't reappear | After deletion, same user is not re-shown |
-| Screenshot | Snapshot captured for visual reference |
+| `test_userList_displaysNavigationTitle` | App loads with correct title |
+| `test_userList_displaysUsers_afterLoading` | Stub data renders in the list |
+| `test_userList_displaysEmailInRow` | Email is visible in list rows |
+| `test_userList_displaysPhoneInRow` | Phone is visible in list rows |
+| `test_search_filtersByFirstName` | Search filters by first name |
+| `test_search_filtersByLastName` | Search filters by last name |
+| `test_search_filtersByEmail` | Search filters by email |
+| `test_search_showsEmptyState_whenNoResults` | Empty state view appears for no matches |
+| `test_search_clearingText_restoresFullList` | Cancelling search restores full list |
+| `test_navigation_tappingUser_opensDetailView` | Tapping a row opens detail |
+| `test_navigation_detailView_displaysEmail` | Email is visible in detail view |
+| `test_navigation_detailView_displaysGender` | Gender is visible in detail view |
+| `test_navigation_detailView_displaysLocation` | Location is visible in detail view |
+| `test_navigation_backButton_returnsToList` | Back button returns to list |
+| `test_deleteUser_removesFromList` | Swipe-to-delete removes the row |
+| `test_deleteUser_multipleUsers` | Deleting several users in sequence works correctly |
+| `test_launch_screenshot` | Snapshot captured for visual reference |
 
 ---
 
