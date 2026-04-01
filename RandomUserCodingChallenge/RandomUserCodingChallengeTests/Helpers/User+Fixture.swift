@@ -21,7 +21,7 @@ extension User {
         state: String = "Spain",
         registeredDate: Date = Date(timeIntervalSince1970: 0),
         thumbnailURL: URL = URL(string: "https://randomuser.me/api/portraits/thumb/women/3.jpg")!,
-        largeImageURL: URL = URL(string: "https://randomuser.me/api/portraits/women/34.jpg")!,
+        largeImageURL: URL = URL(string: "https://randomuser.me/api/portraits/women/3.jpg")!,
         insertedAt: Date = Date(timeIntervalSince1970: 0)
     ) -> User {
         User(
