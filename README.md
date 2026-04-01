@@ -97,15 +97,13 @@ See [`docs/architecture.md`](docs/architecture.md) for sequence diagrams and a f
 | Linting | SwiftLint (SPM plugin) |
 | Formatting | SwiftFormat (Xcode build phase) |
 
-No third-party libraries. No CocoaPods or Carthage.
-
 ## Testing
 
 The project has two test targets:
 
-**Unit tests** (`RandomUserCodingChallengeTests`) — 31 tests across 4 test classes, all using protocol-based mocks and a `User.fixture()` factory. No SwiftData or URLSession in unit tests.
+**Unit tests** (`RandomUserCodingChallengeTests`) — 34 tests across 4 test classes, all using protocol-based mocks and a `User.fixture()` factory. No SwiftData or URLSession in unit tests.
 
-**UI tests** (`RandomUserCodingChallengeUITests`) — 16 tests using the Page Object Model. The test host always injects `StubAPIClient` (3 fixed users) via the `--ui-testing` launch argument, giving deterministic, network-free UI tests.
+**UI tests** (`RandomUserCodingChallengeUITests`) — 18 tests using the Page Object Model. The test host always injects `StubAPIClient` (3 fixed users) via the `--ui-testing` launch argument, giving deterministic, network-free UI tests.
 
 ```bash
 # Run all tests
@@ -128,31 +126,38 @@ See [`docs/testing-strategy.md`](docs/testing-strategy.md) for a full breakdown 
 ## Key Decisions
 
 **Soft delete over hard delete**
-Deleted users are flagged with `isDeleted = true` in SwiftData rather than being removed from the database. This ensures the deletion intent survives new API fetches — newly fetched users are checked against deleted IDs before being saved.
+- Deleted users are flagged with `isDeleted = true` in SwiftData rather than being removed from the database. This ensures the deletion intent survives new API fetches — newly fetched users are checked against deleted IDs before being saved.
 
 **Deduplication by `login.uuid`**
-The RandomUser API can return the same user across pages. Every incoming user is checked against the local store by `login.uuid`, and existing records are not re-inserted, preserving the original `insertedAt` ordering.
+- The RandomUser API can return the same user across pages. Every incoming user is checked against the local store by `login.uuid`, and existing records are not re-inserted, preserving the original `insertedAt` ordering.
 
 **Stable insertion-time ordering**
-Each user is assigned an `insertedAt` timestamp at the moment of first save. All queries sort by this field, guaranteeing the same list order across launches regardless of SwiftData's internal storage order.
+- Each user is assigned an `insertedAt` timestamp at the moment of first save. All queries sort by this field, guaranteeing the same list order across launches regardless of SwiftData's internal storage order.
 
 **Search debounce via `Task.sleep`**
-The 500 ms search debounce is implemented in `UserListViewModel` using `Task` + `try await Task.sleep`. No Combine, no timers — the current search task is cancelled and replaced when the user types, which is idiomatic `async/await`.
+- The 500 ms search debounce is implemented in `UserListViewModel` using `Task` + `try await Task.sleep`. No Combine, no timers — the current search task is cancelled and replaced when the user types, which is idiomatic `async/await`.
 
 **Protocol-first design for testability**
-Both `UserRepositoryProtocol` and `RandomUserAPIClientProtocol` are defined in the Domain layer. The Data layer provides real implementations; tests provide lightweight in-memory mocks. The `StubAPIClient` serves as a third implementation for UI tests.
+- Both `UserRepositoryProtocol` and `RandomUserAPIClientProtocol` are defined in the Domain layer. The Data layer provides real implementations; tests provide lightweight in-memory mocks. The `StubAPIClient` serves as a third implementation for UI tests.
 
 **`@MainActor` DI container**
-`AppDependencies` is marked `@MainActor` because SwiftData's `ModelContext` is not `Sendable` and must be confined to a single actor. Hoisting the entire container to the main actor is the safest and simplest approach given the app's scope.
+- `AppDependencies` is marked `@MainActor` because SwiftData's `ModelContext` is not `Sendable` and must be confined to a single actor. Hoisting the entire container to the main actor is the safest and simplest approach given the app's scope.
 
 **Seed-based pagination**
-A random seed is generated on first launch and persisted to `UserDefaults`. Every subsequent page fetch uses the same seed with an incrementing `page` parameter (`?results=40&seed=abc&page=2`), guaranteeing non-overlapping pages across the full session. Deduplication by `login.uuid` remains as a safety net for edge cases (e.g. data cleared between launches).
+- A random seed is generated on first launch and persisted to `UserDefaults`. Every subsequent page fetch uses the same seed with an incrementing `page` parameter (`?results=40&seed=abc&page=2`), guaranteeing non-overlapping pages across the full session. Deduplication by `login.uuid` remains as a safety net for edge cases (e.g. data cleared between launches).
 
 See [`docs/decisions.md`](docs/decisions.md) for ADR-style records of all significant design choices.
 
 ## Trade-offs & Assumptions
 
-- **Client-side search only.** The RandomUser API does not support server-side filtering, so `FilterUsersUseCase` operates on the in-memory list of already-fetched users. Searching does not trigger a new API request.
-- **No offline-first loading indicator.** The app shows a loading spinner only during active network requests. Existing persisted data is shown immediately on launch; the spinner appears only when new data is being fetched.
-- **Single `ModelContext`.** The entire app shares one `ModelContext` created in `AppDependencies`. For this scale, this is sufficient and avoids merge complexity.
-- **Images not cached beyond `AsyncImage`.** User avatars rely on `AsyncImage`'s built-in URL cache (`URLCache`). There is no persistent image cache.
+**Client-side search only.**
+- The RandomUser API does not support server-side filtering, so `FilterUsersUseCase` operates on the in-memory list of already-fetched users. Searching does not trigger a new API request.
+
+**No offline-first loading indicator.**
+- The app shows a loading spinner only during active network requests. Existing persisted data is shown immediately on launch; the spinner appears only when new data is being fetched.
+
+**Single `ModelContext`.**
+- The entire app shares one `ModelContext` created in `AppDependencies`. For this scale, this is sufficient and avoids merge complexity.
+
+**Images not cached beyond `AsyncImage`.**
+- User avatars rely on `AsyncImage`'s built-in URL cache (`URLCache`). There is no persistent image cache.
