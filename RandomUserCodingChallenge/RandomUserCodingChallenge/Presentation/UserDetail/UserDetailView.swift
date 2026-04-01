@@ -73,7 +73,7 @@ private struct DetailRow: View {
     let value: String
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             Image(systemName: icon)
                 .foregroundStyle(.accent)
                 .frame(width: 20)
