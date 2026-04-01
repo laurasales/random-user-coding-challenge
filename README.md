@@ -1,6 +1,6 @@
 # Random User Coding Challenge
 
-An iOS application that fetches and displays random users from the [RandomUser API](https://randomuser.me).
+An iOS app built with Clean Architecture + MVVM, SwiftUI, and SwiftData — fetches, displays, and manages random users from the [Random User API](https://randomuser.me).
 
 ## Features
 
